@@ -46,8 +46,8 @@ contract PrivateRoundContract {
         require(ownedBFG[user] == 0, "Already whitelisted");
 
         //10% TGE
-        uint256 TGE = amountConverted * 10 / 100;
-        itoken.transfer(user,TGE);
+        uint256 TGE = amountConverted * 10 / 100; // @audit-issue unnecessary multiplication
+        itoken.transfer(user,TGE); // @audit-issue CEI
         balance-=TGE;
 
         allOwned += amountConverted;
@@ -64,7 +64,7 @@ contract PrivateRoundContract {
     function getDaysUnlocked(uint8 daysPast, address _receiver) internal{
         
         //tokens for 1 day
-		uint256 newTokens = ownedBFG[_receiver] * 25 / 10000;
+		uint256 newTokens = ownedBFG[_receiver] * 25 / 10000; // OK
 		//tokens for daysPast days
 		
         //transfer
